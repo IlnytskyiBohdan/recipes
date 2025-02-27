@@ -6,9 +6,10 @@ import Layout from "./components/Layout";
 
 export const router = createBrowserRouter([
   {
+    path: "/",
     element: <Layout />,
     children: [
-      { path: "/", element: <HomePage /> },
+      { index: true, element: <HomePage /> },
       { path: "/recipe/:id", element: <RecipePage /> },
       { path: "/my-recipes", element: <MyRecipesPage /> },
     ],

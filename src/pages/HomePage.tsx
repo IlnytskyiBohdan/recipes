@@ -48,8 +48,8 @@ const HomePage = () => {
   });
 
   const debouncedSearch = useCallback(
-    debounce(async (query) => {
-      if (query) {
+    debounce(async (query: string) => {
+      if (query.trim()) {
         const result = await searchRecipes(query);
         setFilteredRecipes(result);
       } else {

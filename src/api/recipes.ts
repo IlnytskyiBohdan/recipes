@@ -8,6 +8,7 @@ export interface Recipe {
   strMealThumb: string;
   strCategory: string;
   strArea?: string;
+  strInstructions?: string; 
 }
 
 export interface Category {

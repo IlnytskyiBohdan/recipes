@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { Container, Grid, Typography, Card, CardContent, CardMedia, Button } from "@mui/material";
 import { useMyRecipesStore } from "../store/store";
 import { fetchRecipeById } from "../api/recipes";
+import { Recipe } from "../api/recipes";
 
 const MyRecipesPage = () => {
   const { myRecipes, removeRecipe } = useMyRecipesStore();
-  const [selectedRecipe, setSelectedRecipe] = useState(myRecipes[0] || null);
-  const [recipeDetails, setRecipeDetails] = useState<any>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(myRecipes[0] || null);
+  const [recipeDetails, setRecipeDetails] = useState<Recipe | null>(null);
   const [totalIngredients, setTotalIngredients] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -23,13 +24,17 @@ const MyRecipesPage = () => {
         const details = await fetchRecipeById(recipe.idMeal);
         if (details) {
           for (let i = 1; i <= 20; i++) {
-            const ingredient = details[`strIngredient${i}`];
-            const measure = details[`strMeasure${i}`];
+            const ingredientKey = `strIngredient${i}` as keyof Recipe;
+            const measureKey = `strMeasure${i}` as keyof Recipe;
+
+            const ingredient = details[ingredientKey];
+            const measure = details[measureKey];
+
             if (ingredient) {
               if (!allIngredients[ingredient]) {
                 allIngredients[ingredient] = [];
               }
-              allIngredients[ingredient].push(measure.trim());
+              allIngredients[ingredient].push(measure?.trim() || "");
             }
           }
         }
@@ -56,44 +61,42 @@ const MyRecipesPage = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        {myRecipes.length > 0 && (
-          <Grid item xs={12} md={4}>
-            {myRecipes.map((recipe) => (
-              <Card key={recipe.idMeal} sx={{ display: "flex", mb: 2 }}>
-                <CardMedia
-                  component='img'
-                  sx={{ width: 100 }}
-                  image={recipe.strMealThumb}
-                  alt={recipe.strMeal}
-                />
-                <CardContent sx={{ flex: 1 }}>
-                  <Typography variant='h6'>{recipe.strMeal}</Typography>
-                  <Typography variant='body1' color='textSecondary'>
-                    {recipe.strCategory} {recipe.strArea ? `- ${recipe.strArea}` : ""}
-                  </Typography>
-                  <Button
-                    variant='outlined'
-                    color='primary'
-                    fullWidth
-                    sx={{ mt: 1 }}
-                    onClick={() => setSelectedRecipe(recipe)}>
-                    View
-                  </Button>
-                  <Button
-                    variant='outlined'
-                    color='error'
-                    fullWidth
-                    sx={{ mt: 1 }}
-                    onClick={() => removeRecipe(recipe.idMeal)}>
-                    Remove
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </Grid>
-        )}
+        <Grid item xs={12} md={4}>
+          {myRecipes.map((recipe) => (
+            <Card key={recipe.idMeal} sx={{ display: "flex", mb: 2 }}>
+              <CardMedia
+                component='img'
+                sx={{ width: 100 }}
+                image={recipe.strMealThumb}
+                alt={recipe.strMeal}
+              />
+              <CardContent sx={{ flex: 1 }}>
+                <Typography variant='h6'>{recipe.strMeal}</Typography>
+                <Typography variant='body2' color='textSecondary'>
+                  {recipe.strCategory} {recipe.strArea ? `- ${recipe.strArea}` : ""}
+                </Typography>
+                <Button
+                  variant='outlined'
+                  color='primary'
+                  fullWidth
+                  sx={{ mt: 1 }}
+                  onClick={() => setSelectedRecipe(recipe)}>
+                  View
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='error'
+                  fullWidth
+                  sx={{ mt: 1 }}
+                  onClick={() => removeRecipe(recipe.idMeal)}>
+                  Remove
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </Grid>
 
-        <Grid item xs={12} md={myRecipes.length > 0 ? 8 : 12}>
+        <Grid item xs={12} md={8}>
           {recipeDetails ? (
             <>
               <Typography variant='h4' sx={{ mb: 2 }}>
@@ -103,17 +106,19 @@ const MyRecipesPage = () => {
                 <strong>Ingredients:</strong>
               </Typography>
               <ul>
-                {Array.from({ length: 20 }, (_, i) => i + 1)
-                  .map((i) => ({
-                    ingredient: recipeDetails[`strIngredient${i}`],
-                    measure: recipeDetails[`strMeasure${i}`],
-                  }))
-                  .filter((item) => item.ingredient)
-                  .map((item, index) => (
-                    <li key={index}>
-                      {item.ingredient} - {item.measure}
+                {Array.from({ length: 20 }, (_, i) => {
+                  const ingredientKey = `strIngredient${i + 1}` as keyof Recipe;
+                  const measureKey = `strMeasure${i + 1}` as keyof Recipe;
+
+                  const ingredient = recipeDetails[ingredientKey];
+                  const measure = recipeDetails[measureKey];
+
+                  return ingredient ? (
+                    <li key={i}>
+                      {ingredient} - {measure || ""}
                     </li>
-                  ))}
+                  ) : null;
+                }).filter(Boolean)}
               </ul>
               <Typography variant='h5' sx={{ mt: 3 }}>
                 <strong>Instructions:</strong>
@@ -129,8 +134,10 @@ const MyRecipesPage = () => {
       </Grid>
 
       {Object.keys(totalIngredients).length > 0 && (
-        <Container sx={{ mt: 4, textAlign: "left", pl: 0 }}>
-          <Typography variant='h4'>Ingredients Summary:</Typography>
+        <Container sx={{ mt: 6, textAlign: "left", pl: 0 }}>
+          <Typography variant='h4' sx={{ textAlign: "center", mb: 2 }}>
+            Ingredients Summary
+          </Typography>
           <ul style={{ listStyleType: "none", padding: 0, marginLeft: 0 }}>
             {Object.entries(totalIngredients).map(([name, quantity]) => (
               <li key={name}>
