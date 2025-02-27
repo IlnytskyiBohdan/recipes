@@ -61,42 +61,44 @@ const MyRecipesPage = () => {
       </Typography>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          {myRecipes.map((recipe) => (
-            <Card key={recipe.idMeal} sx={{ display: "flex", mb: 2 }}>
-              <CardMedia
-                component='img'
-                sx={{ width: 100 }}
-                image={recipe.strMealThumb}
-                alt={recipe.strMeal}
-              />
-              <CardContent sx={{ flex: 1 }}>
-                <Typography variant='h6'>{recipe.strMeal}</Typography>
-                <Typography variant='body2' color='textSecondary'>
-                  {recipe.strCategory} {recipe.strArea ? `- ${recipe.strArea}` : ""}
-                </Typography>
-                <Button
-                  variant='outlined'
-                  color='primary'
-                  fullWidth
-                  sx={{ mt: 1 }}
-                  onClick={() => setSelectedRecipe(recipe)}>
-                  View
-                </Button>
-                <Button
-                  variant='outlined'
-                  color='error'
-                  fullWidth
-                  sx={{ mt: 1 }}
-                  onClick={() => removeRecipe(recipe.idMeal)}>
-                  Remove
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </Grid>
+        {myRecipes.length > 0 && (
+          <Grid item xs={12} md={4}>
+            {myRecipes.map((recipe) => (
+              <Card key={recipe.idMeal} sx={{ display: "flex", mb: 2 }}>
+                <CardMedia
+                  component='img'
+                  sx={{ width: 100 }}
+                  image={recipe.strMealThumb}
+                  alt={recipe.strMeal}
+                />
+                <CardContent sx={{ flex: 1 }}>
+                  <Typography variant='h6'>{recipe.strMeal}</Typography>
+                  <Typography variant='body2' color='textSecondary'>
+                    {recipe.strCategory} {recipe.strArea ? `- ${recipe.strArea}` : ""}
+                  </Typography>
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    fullWidth
+                    sx={{ mt: 1 }}
+                    onClick={() => setSelectedRecipe(recipe)}>
+                    View
+                  </Button>
+                  <Button
+                    variant='outlined'
+                    color='error'
+                    fullWidth
+                    sx={{ mt: 1 }}
+                    onClick={() => removeRecipe(recipe.idMeal)}>
+                    Remove
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </Grid>
+        )}
 
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={myRecipes.length > 0 ? 8 : 12}>
           {recipeDetails ? (
             <>
               <Typography variant='h4' sx={{ mb: 2 }}>
@@ -107,9 +109,8 @@ const MyRecipesPage = () => {
               </Typography>
               <ul>
                 {Array.from({ length: 20 }, (_, i) => {
-                  const ingredientKey = `strIngredient${i + 1}` as keyof Recipe;
-                  const measureKey = `strMeasure${i + 1}` as keyof Recipe;
-
+                  const ingredientKey = `strIngredient${i + 1}` as keyof typeof recipeDetails;
+                  const measureKey = `strMeasure${i + 1}` as keyof typeof recipeDetails;
                   const ingredient = recipeDetails[ingredientKey];
                   const measure = recipeDetails[measureKey];
 
@@ -118,7 +119,7 @@ const MyRecipesPage = () => {
                       {ingredient} - {measure || ""}
                     </li>
                   ) : null;
-                }).filter(Boolean)}
+                })}
               </ul>
               <Typography variant='h5' sx={{ mt: 3 }}>
                 <strong>Instructions:</strong>
