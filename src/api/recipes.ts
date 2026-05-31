@@ -8,7 +8,12 @@ export interface Recipe {
   strMealThumb: string;
   strCategory: string;
   strArea?: string;
-  strInstructions?: string; 
+  strInstructions?: string;
+  strYoutube?: string;
+  strTags?: string;
+  strSource?: string;
+  [key: `strIngredient${number}`]: string | undefined;
+  [key: `strMeasure${number}`]: string | undefined;
 }
 
 export interface Category {
@@ -33,23 +38,7 @@ export const searchRecipes = async (query: string): Promise<Recipe[]> => {
 export const fetchRecipesByCategory = async (category: string): Promise<Recipe[]> => {
   const res = await axios.get<{ meals: Recipe[] }>(`${API_URL}/filter.php?c=${category}`);
   const recipes = res.data.meals || [];
-
-  const recipesWithDetails = await Promise.all(
-    recipes.map(async (meal) => {
-      const detailsRes = await axios.get<{ meals: Recipe[] }>(
-        `${API_URL}/lookup.php?i=${meal.idMeal}`
-      );
-      const details = detailsRes.data.meals[0] || {};
-
-      return {
-        ...meal,
-        strCategory: category,
-        strArea: details.strArea || "Unknown",
-      };
-    })
-  );
-
-  return recipesWithDetails;
+  return recipes.map((meal) => ({ ...meal, strCategory: category }));
 };
 
 export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
