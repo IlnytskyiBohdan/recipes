@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#FAFAF8"/>
+  <!-- Left accent block -->
+  <rect width="420" height="630" fill="#E65100"/>
+  <!-- Decorative circles on left -->
+  <circle cx="210" cy="315" r="180" fill="#FF833A" opacity="0.25"/>
+  <circle cx="210" cy="315" r="120" fill="#FF833A" opacity="0.2"/>
+  <!-- Fork on left panel -->
+  <!-- Tines -->
+  <rect x="163" y="155" width="14" height="70" rx="7" fill="white"/>
+  <rect x="189" y="155" width="14" height="70" rx="7" fill="white"/>
+  <rect x="215" y="155" width="14" height="70" rx="7" fill="white"/>
+  <!-- Neck -->
+  <path d="M163 225 Q189 250 203 252 Q217 254 229 225" fill="white"/>
+  <!-- Handle -->
+  <rect x="196" y="252" width="14" height="95" rx="7" fill="white"/>
+  <!-- Knife -->
+  <path d="M245 155 L260 155 Q310 170 310 230 L245 230 Z" fill="white"/>
+  <rect x="245" y="230" width="14" height="95" rx="7" fill="white"/>
+  <!-- Right side text -->
+  <!-- Title -->
+  <text x="520" y="260" font-family="Inter, Georgia, serif" font-size="96" font-weight="700" fill="#1A1A1A" letter-spacing="-2">Recipes</text>
+  <!-- Divider -->
+  <rect x="520" y="300" width="80" height="5" rx="2.5" fill="#E65100"/>
+  <!-- Subtitle -->
+  <text x="520" y="370" font-family="Inter, Arial, sans-serif" font-size="36" fill="#555" font-weight="400">Find &amp; save your favorite meals</text>
+  <!-- Tags -->
+  <rect x="520" y="420" width="160" height="48" rx="24" fill="#FFF3E0" stroke="#FFCCBC" stroke-width="2"/>
+  <text x="600" y="451" font-family="Inter, Arial, sans-serif" font-size="22" fill="#E65100" text-anchor="middle" font-weight="500">Search</text>
+  <rect x="698" y="420" width="180" height="48" rx="24" fill="#FFF3E0" stroke="#FFCCBC" stroke-width="2"/>
+  <text x="788" y="451" font-family="Inter, Arial, sans-serif" font-size="22" fill="#E65100" text-anchor="middle" font-weight="500">Categories</text>
+  <rect x="896" y="420" width="200" height="48" rx="24" fill="#FFF3E0" stroke="#FFCCBC" stroke-width="2"/>
+  <text x="996" y="451" font-family="Inter, Arial, sans-serif" font-size="22" fill="#E65100" text-anchor="middle" font-weight="500">Shopping List</text>
+  <!-- Domain -->
+  <text x="520" y="560" font-family="Inter, Arial, sans-serif" font-size="26" fill="#999">ilnytskyibohdan.github.io/recipes</text>
+</svg>
