@@ -32,9 +32,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ meal }) => {
           component="img"
           src={meal.strMealThumb}
           alt={meal.strMeal}
-          loading="lazy"
-          width={700}
-          height={527}
           sx={{
             width: "100%",
             height: { xs: 140, sm: 190 },
