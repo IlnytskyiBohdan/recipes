@@ -31,7 +31,7 @@ const Header = () => {
                 {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Tooltip>
-            <IconButton component={Link} to="/my-recipes" color="inherit">
+            <IconButton component={Link} to="/my-recipes" color="inherit" aria-label="My Recipes">
               <Badge badgeContent={myRecipes.length} color="secondary">
                 <RestaurantIcon />
               </Badge>

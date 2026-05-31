@@ -133,6 +133,7 @@ const HomePage = () => {
                 setCategory(e.target.value);
                 setPage(1);
               }}
+              inputProps={{ "aria-label": "Select recipe category" }}
               disabled={categories.length === 0}
               sx={{
                 bgcolor: "background.paper",
